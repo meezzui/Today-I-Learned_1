@@ -52,9 +52,59 @@ public class Array1 {
 ## 1-5 배열의 복사
 + for문을 이용한 배열 복사
   + `int[] temp = new int[arr.length*2];`기존 배열보다 길이가 2배인 배열을 생성
-  ```java
-  
-  ```
+```java
+  public class Array2 {
+    public static void main(String[] args) {
+        int[] arr = new int[5];
+
+        //배열 arr에 1~5를 저장
+        for(int i=0; i<arr.length; i++){
+            arr[i] = i+1;
+        }
+        System.out.println("[변경전]");
+        System.out.println("arr 배열의 길이:"+ arr.length);
+        for(int i=0; i<arr.length;i++){
+            System.out.println("arr["+i+"]:"+arr[i]);
+        }
+        int[] temp = new int[arr.length*2]; //배열의 길이가 10인 int배열 temp가 생성되고, 배열 temp의 각 요소는 int의 기본값인 0으로 초기화 된다.
+
+        //배열 arr에 저장된 값들을 배열 temp에 복사
+        for(int i=0; i<arr.length;i++){
+            temp[i] = arr[i];
+        }
+         arr = temp; //temp에 저장된 값을 arr에 저장 => 배열 arr과 배열 temp는 이름만 다를뿐 동일한 배열, 배열은 참조변수를 통해서만 접근할 수 있기 때문에 자신을 가리키는 참조변수가 없는 배열은 더 이상 사용할 수 없다. 따라서 arr이 가리키던 배열은 더 이상 사용할 수 없음.
+        System.out.println("[변경후]");
+        System.out.println("arr 배열의 길이:"+ arr.length);
+        for(int i=0; i<arr.length;i++){
+            System.out.println("arr["+i+"]:"+arr[i]);
+        }
+    }
+}
+
+```  
+
+실행결과
+``` java
+[변경전]
+arr 배열의 길이:5
+arr[0]:1
+arr[1]:2
+arr[2]:3
+arr[3]:4
+arr[4]:5
+[변경후]
+arr 배열의 길이:10
+arr[0]:1
+arr[1]:2
+arr[2]:3
+arr[3]:4
+arr[4]:5
+arr[5]:0
+arr[6]:0
+arr[7]:0
+arr[8]:0
+arr[9]:0
+```
 
 
 #### 🎁배열의 장점🎁
