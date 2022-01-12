@@ -189,3 +189,186 @@ class MyMath{
 + 메서드 영역(method area) : 프로그럄 실행 중 어떤 클래스가 사용되면 클래스파일(*.class)을 읽어서 클래스에 대한 정보를 저장. 이때  그 클래스의 클래스변수도 이 영역에 함께 생성됨
 + 힙(heap) : 인스턴스가 생성되는 공간. 프로그램 실행 중 생성되는 인스턴스는 모두 이곳에 생성됨
 + 호출스택(call stack 또는 execution stack) : 메서드의 작업에 필요한 메모리 공간을 제공. 메서드가 호출되면 호출스택에 호출된 메서드를 위한 메로리가 할당됨 -> 메모리는 메서드가 작업을 수행하는 동안 지역변수(매개변수 포함)들과 연산의 중간결과를 저장 -> 메서드가 작업을 마치면 사용했던 메모리를 반환하고 스택에서 제거됨
+#### 기본형 매개변수와 참조형 매개변수
++ 기본형 매개변수 : 변수의 값을 읽기만 할 수 있다.
+```java
+static void change(int x){//기본형 매개변수
+  x = 1000;
+  System.out.println("change x= "+x);
+}
+```
++ 참조형 매개변수: 변수의 값을 읽고 변경할 수 있다.
+```java
+public class ObjectOriented3 {
+    public static void main(String[] args) {
+        Data d = new Data();
+        d.x=10;
+        System.out.println("main 함수: x = "+d.x);
+
+        change(d);
+        System.out.println("바뀐 main 함수 : x = "+d.x);
+    }
+
+    static void change(Data d){
+        d.x = 1000;
+        System.out.println("change(): x="+d.x);
+    }
+}
+class Data{int x;}
+```
+실행결과
+```java
+main 함수: x = 10
+change(): x=1000
+바뀐 main 함수 : x = 1000
+```
++ 매개변수 타입이 배열인 경우도 참조형 매개변수이다.
+```java
+public class ObjectOriented4 {
+    public static void main(String[] args) {
+        int[] arr = new int[] {3,4,2,5,6,7};
+
+        printArr(arr);// 배열의 모든 요소 출력
+        sortArr(arr); //배열 정렬
+        printArr(arr); // 정렬 후 결과 출력
+        System.out.println("sum="+ sumArr(arr));//배열의 총합 출력
+    }
+    static void printArr(int[] arr){//배열의 모든 요소 출력
+        System.out.print("[");
+        for(int i=0; i<arr.length; i++){
+            System.out.print(i+",");
+        }
+        System.out.println("]");
+    }
+    static int sumArr(int[] arr) {//배열의 모든 요소의 합 반환
+        int sum = 0;
+        for(int i=0; i<arr.length;i++){
+            sum += arr[i];
+        }
+        return sum;
+    }
+    static void sortArr(int[] arr){// 배열을 오름차순으로 정렬
+        for(int i=0; i<arr.length-1;i++){
+            for(int j=0; j<arr.length-1-i; j++){
+                if(arr[j]>arr[j+1]){
+                    int temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] =temp;
+                }
+            }
+        }
+    }
+}
+```
+실행결과
+```java
+[0,1,2,3,4,5,]
+[0,1,2,3,4,5,]
+sum=27
+```
++ 반환값이 있는 메서드를 반환값이 없는 메서드로 바꾸는 방법
+```java
+int add(int a, int b){            void add(int a, int b, int[] result){
+  return a+b;           <---->        result[0] = a+b; //매개변수로 넘겨받은 배열에 연산결과를 저장
+ }                                 }  
+```
+#### 재귀호출(recursive cell)
++ 재귀호출 : 메서드의 내부에서 메서드 자신을 다시 호출하는 것. 재귀호출은 무한히 자신을 호출하기 때문에 조건문과 함께 사용되어야 한다.
+```java
+//n을 1씩 감소시키면서 n=0일떼 메서드 종료
+void method(int n){
+  if(n==0) return; //n=0일때 메서드 종료
+  Sysytem.out.println(n);
+  method(--n); // 재귀호춯
+}
+```
++ 재귀호출의 대표적인 예- 팩토리얼
+```java
+public class ObjectOriented5 {
+    public static void main(String[] args) {
+        int result = factorial(4);
+        System.out.println(result);
+    }
+
+    static int factorial(int n){
+        int result =0;
+        if(n==1){
+            result =1;
+        }else {
+            result = n * factorial(n-1);//다시 메서드 자신을 호출
+        }
+        return result;
+    }
+}
+```
+실행결과
+`24`
++ 클래스 메서드(static 메서드)와 인스턴스 메서드
+  + 클래스 영역에 선언된 변수를 멤버 변수. 멤버변수 = 클래스변수(static변수) + 인스턴스변수(static이 안 붙는 것)
+  + 클래스를 설계할 때, 멤버 변수 중 모든 인스턴스에 공통으로 사용하는 것에 static을 붙인다.
+  + 클래스 변수(static)는 인스턴스를 셍성하지 않아도 사용할 수 있다.
+  + 클래스 메서드(static 메서드)는 인스턴스 변수를 사용할 수 없다.
+  + 메서드 내에서 인스턴스 변수를 사용하지 않는다면, static을 붙이는 것을 고려한다.(작업중에 인스턴스변수가 필요하다면 static을 붙일 수 없는데 필요없다면 static을 붙일 수 있어)
+  ```java
+      public class ObjectOriented6 {
+        public static void main(String[] args) {
+            //클래스매서드 호출. 인스턴스 생성없이 호출가능
+            System.out.println(MyMath2.add(50,45));
+            System.out.println(MyMath2.subtract(50,45));
+            System.out.println(MyMath2.multiply(50,45));
+            System.out.println(MyMath2.divide(50.0,45.0));
+
+            MyMath2 myMath2 = new MyMath2(); // 인스턴스 생성
+            myMath2.a = 30;
+            myMath2.b = 20;
+            // 인스턴스메서드는 객체생성 후에만 호출이 가능
+            System.out.println(myMath2.add());
+            System.out.println(myMath2.subtract());
+            System.out.println(myMath2.multiply());
+            System.out.println(myMath2.divide());
+        }
+    }
+    class MyMath2{
+        long a,b;
+
+        //인스턴스변수 a,b만을 이용해서 작업하므로 매개변수가 필요없다.
+        long add(){return a+b;} //a,b는 인스턴스변수
+        long subtract(){return a-b;}
+        long multiply(){return a*b;}
+        double divide(){return a/b;}
+
+        //인스턴스변수와 관계없이 매개변수만으로 작업 가능
+        static long add(long a,long b){return a+b;} //a,b는 지역변수
+        static long subtract(long a,long b){return a-b;}
+        static long multiply(long a,long b){return a*b;}
+        static double divide(double a, double b){return a/b;}
+    }
+  ```
+   실행결과
+  ```java
+    95
+    5
+    2250
+    1.1111111111111112
+    50
+    10
+    600
+    1.0
+  ```
+  #### 클래스 멤버와 인스턴스 멤버간의 참조와 호출
+  🎁 static메서드는 인스턴스 메서드를 호출할 수 없다. 변수도 마찬가지로 static메서드에서는 인스턴스변수를 사용할 수 없다.
+  ```java
+  class TestClass{
+    void instanceMethod1(){} // 인스턴스메서드1
+    static void staticMethod(){} // static메서드
+    
+    void instanceMethod2(){//인스턴스메서드2
+      instanceMethod1(); // 인스턴스메서드1 호출
+      staticMethod(); //static 메서드 호출
+     } 
+      staitc void staticMethod2(){ //static 메서드 
+      instanceMethod1(); // 에러!!! 인스턴스메서드는 호출 불가
+      staticMethod(); // static메서드는 호출 가능
+      }
+  }
+  ```
