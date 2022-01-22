@@ -78,7 +78,7 @@ int big = f.max(5,3); // 익명 객체의 메서드 호출
   + identity : 항등 함수 (잘 사용되지 않는 편이나 map()으로 변환 작업할 때 변환없이 그대로 처리하고자할 때 사용)
 + Predicate의 결합
   + and() : &&
-  +or() : ||
+  + or() : ||
   + negate() : not
   + isEqual() : 두 대상 비교
 ```java
