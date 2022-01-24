@@ -104,7 +104,17 @@ inputStreamReader.close();
 + System.in : System.in 은 콘솔의 키보드 인풋에 연결된 inputStream이다.
 + System.out : System.out은 PrintStream이다. 콘솔로 데이터를 내보는 역할을 한다.
 + System.err : System.err PrintStream이다. System.out과 비슷하지만 일반적으로 에러메세지를 내보낼때 사용된다.
++ System.out과 System.err 사용비교
+```java
+try {
+  InputStream input = new FileInputStream("test.txt");
+  System.out.println("File opened...");
 
+} catch (IOException e){
+  System.err.println("File opening failed:");
+  e.printStackTrace();
+}
+```
 #### RandomAccessFile
 + 입력과 출력을 하나의 클래스로 파일에 대한 입력/출력을 모두 할 수 있게 설계된 클래스. 가장 큰 장점은 파일의 어느 위치에나 읽기/쓰기가 가능하다는 점이다.
 + RandomAccessFile 생성
@@ -150,6 +160,12 @@ boolean dirCreated = file.mkdir();
 + 파일 길이 `long length = file.length();`
 + Rename `boolean success = file.renameTo(new File("c:\\data\\new-file.txt"));`
 + 파일 삭제 `boolean success = file.delete();`
++ 디렉토리 생성(mkdir() / mkdirs())
+```java
+File file = new File("c:\\users\\javastudy\\newdir");
+
+boolean dirCreated = file.mkdir();
+```
 + 파일 리스트(list() / listFiles()) 
 ```java
 File file = new File("c:\\data");
